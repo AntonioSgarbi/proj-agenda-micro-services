@@ -1,0 +1,17 @@
+version: '3.4'
+
+volumes:
+  prometheus_data:
+
+services:
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./prometheus.yaml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    build:
+      context: .
+      network: host
+    ports:
+      - "9090:9090"
+

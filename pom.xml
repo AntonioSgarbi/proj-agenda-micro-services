@@ -26,6 +26,7 @@
         <eureka-client-version>3.1.4</eureka-client-version>
         <spring-cloud-starter-config-version>3.1.5</spring-cloud-starter-config-version>
         <spring-cloud-starter-bootstrap-version>3.1.5</spring-cloud-starter-bootstrap-version>
+        <micromiter-version>1.10.0</micromiter-version>
     </properties>
 
     <dependencies>
@@ -75,6 +76,18 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-prometheus</artifactId>
+            <version>${micrometer.version}</version>
+        </dependency>
+
 
     </dependencies>
     <dependencyManagement>

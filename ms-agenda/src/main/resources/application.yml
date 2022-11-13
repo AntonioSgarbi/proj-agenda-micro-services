@@ -1,0 +1,29 @@
+spring:
+    application:
+        name: agenda
+
+eureka:
+    instance:
+        hostname: register
+        health-check-url-path: /actuator/health
+
+    client:
+        register-with-eureka: true
+        fetch-registry: true
+        service-url:
+            defaultZone: http://localhost:8761/eureka
+
+management:
+    endpoints:
+        enabled-by-default: false
+        web:
+            base-path: /actuator
+            exposure:
+                include: "health,prometheus"
+    endpoint:
+        health:
+            enabled: true
+            show-details: always
+        prometheus:
+            enabled: true
+
