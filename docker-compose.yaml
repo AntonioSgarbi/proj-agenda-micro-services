@@ -3,15 +3,21 @@ version: '3.4'
 volumes:
   prometheus_data:
 
+networks:
+  unisul-distruidos:
+      driver: bridge
+
 services:
   prometheus:
+    user: root
+    extra_hosts:
+      - host.docker.internal:host-gateway
     image: prom/prometheus:latest
     volumes:
       - ./prometheus.yaml:/etc/prometheus/prometheus.yml
       - prometheus_data:/prometheus
-    build:
-      context: .
-      network: host
+    networks:
+      - unisul-distruidos
     ports:
       - "9090:9090"
 

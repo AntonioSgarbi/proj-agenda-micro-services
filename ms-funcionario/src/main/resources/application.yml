@@ -3,18 +3,10 @@ server:
   error:
     include-message: always
 
-#eureka:
-#  instance:
-#    hostname: localhost
-#  client:
-#    register-with-eureka: true
-#    fetch-registry: true
-#    service-url:
-#      defaultZone: http://localhost:8761/eureka
-
-
 # datasource
 spring:
+  application:
+    name: funcionario
   datasource:
     driverClassName: org.h2.Driver
     url: jdbc:h2:file:./ms-funcionario/data/bd-funcionario
@@ -30,3 +22,28 @@ spring:
     console:
       enabled: true
       path: /h2-console
+
+eureka:
+  instance:
+    hostname: register
+    health-check-url-path: /actuator/health
+
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+management:
+  endpoints:
+    enabled-by-default: false
+    web:
+      base-path: /actuator
+      exposure:
+        include: "health,prometheus"
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+    prometheus:
+      enabled: true
