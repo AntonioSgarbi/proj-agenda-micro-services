@@ -2,8 +2,7 @@ server:
   port: 8761
 eureka:
   instance:
-    hostname: register
-    health-check-url: http://localhost:8761/eureka/app
+    hostname: localhost
   client:
     fetch-registry: false
     register-with-eureka: false

@@ -8,6 +8,6 @@ runProjects() {
     done
 }    
 
-projects=("proj-eureka" "ms-agenda" "ms-funcionario" "ms-sala")
+projects=("proj-eureka" "ms-agenda" "ms-funcionario" "ms-sala" "proj-gateway")
 
 runProjects "${projects[@]}"

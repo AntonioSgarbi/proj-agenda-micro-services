@@ -6,9 +6,9 @@ spring:
 
 eureka:
     instance:
-        hostname: register
+        hostname: localhost
         health-check-url-path: /actuator/health
-
+        status-page-url-path: /actuator/health
     client:
         register-with-eureka: true
         fetch-registry: true
