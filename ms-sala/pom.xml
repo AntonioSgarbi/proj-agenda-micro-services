@@ -5,12 +5,12 @@
     <parent>
         <groupId>tech.antoniosgarbi</groupId>
         <artifactId>distribuidos</artifactId>
-        <version>0.1-SNAPSHOT</version>
+        <version>0.0.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath> <!-- lookup parent from repository -->
     </parent>
 
-    <artifactId>sala</artifactId>
-    <version>0.1-SNAPSHOT</version>
+    <artifactId>ms-sala</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
     <name>sala</name>
     <description>Microsserviço de Sala</description>
 

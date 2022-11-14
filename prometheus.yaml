@@ -6,6 +6,18 @@ scrape_configs:
   - job_name: "agenda"
     metrics_path: "/actuator/prometheus"
     static_configs:
-      - targets: ["host.docker.internal:8080"]
+      - targets: ["host.docker.internal:8091"]
         labels:
-          application: "agenda"
+          application: "ms-agenda"
+  - job_name: "funcionario"
+    metrics_path: "/actuator/prometheus"
+    static_configs:
+      - targets: ["host.docker.internal:8092"]
+        labels:
+          application: "ms-funcionario"  
+  - job_name: "sala"
+    metrics_path: "/actuator/prometheus"
+    static_configs:
+      - targets: ["host.docker.internal:8093"]
+        labels:
+          application: "ms-sala"

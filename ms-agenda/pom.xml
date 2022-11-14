@@ -5,12 +5,12 @@
     <parent>
         <groupId>tech.antoniosgarbi</groupId>
         <artifactId>distribuidos</artifactId>
-        <version>0.1-SNAPSHOT</version>
+        <version>0.0.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath> <!-- lookup parent from repository -->
     </parent>
 
-    <artifactId>agenda</artifactId>
-    <version>0.1-SNAPSHOT</version>
+    <artifactId>ms-agenda</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
     <name>agenda</name>
     <description>Microsserviço de Agenda</description>
 
