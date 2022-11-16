@@ -8,48 +8,130 @@ volumes:
 networks:
   unisul-distribuidos:
       driver: bridge
+      ipam:
+        config:
+          - subnet: 172.20.0.0/16
 
 services:
+  
   prometheus:
     user: root
-    extra_hosts:
-      - host.docker.internal:host-gateway
     image: prom/prometheus:latest
     volumes:
       - ./prometheus.yaml:/etc/prometheus/prometheus.yml
       - prometheus_data:/prometheus
+    # ports:
+    #   - "9090:9090"
     networks:
       - unisul-distribuidos
-    ports:
-      - "9090:9090"
+  
   grafana:
     image: grafana/grafana:latest
     ports:
       - 3000:3000
     networks:
       - unisul-distribuidos
-  postgres:
-      image: postgres:14.1-alpine
-      volumes:
-        - postgres_data:/var/lib/postgresql/data
-      environment:
-        POSTGRES_DB: keycloak
-        POSTGRES_USER: keycloak
-        POSTGRES_PASSWORD: password
-  keycloak:
-      image: quay.io/keycloak/keycloak:legacy
-      environment:
-        DB_VENDOR: POSTGRES
-        DB_ADDR: postgres
-        DB_DATABASE: keycloak
-        DB_USER: keycloak
-        DB_SCHEMA: public
-        DB_PASSWORD: password
-        KEYCLOAK_USER: admin
-        KEYCLOAK_PASSWORD: Pa55w0rd
-      ports:
-        - 9999:8080
-      depends_on:
-        - postgres
+    depends_on:
+      - prometheus
 
+  # postgres:
+  #     image: postgres:14.1-alpine
+  #     volumes:
+  #       - postgres_data:/var/lib/postgresql/data
+  #     environment:
+  #       POSTGRES_DB: keycloak
+  #       POSTGRES_USER: keycloak
+  #       POSTGRES_PASSWORD: password
+  # keycloak:
+  #     image: quay.io/keycloak/keycloak:legacy
+  #     environment:
+  #       DB_VENDOR: POSTGRES
+  #       DB_ADDR: postgres
+  #       DB_DATABASE: keycloak
+  #       DB_USER: keycloak
+  #       DB_SCHEMA: public
+  #       DB_PASSWORD: password
+  #       KEYCLOAK_USER: admin
+  #       KEYCLOAK_PASSWORD: Pa55w0rd
+  #     ports:
+  #       - 9999:8080
+  #     depends_on:
+  #       - postgres
+
+  eureka:
+    image: antoniosk/unisul-dist-proj-eureka:latest
+    networks:
+      - unisul-distribuidos
+    ports:
+      - "8761:8761"
+
+  agenda:
+    environment:
+      EUREKA_INSTANCE_HOSTNAME: "agenda"
+      EUREKA_CLIENT_SERVICE_URL_DEFAULT_ZONE: "http://eureka:8761/eureka"
+    image: antoniosk/unisul-dist-ms-agenda:latest
+    depends_on:
+      - eureka
+    networks:
+      - unisul-distribuidos
+    healthcheck:
+      test: "curl --fail --silent localhost:8091/actuator/health | grep UP || exit 1"
+      interval: 20s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
+    links:
+      - eureka
+    ports:
+      - "8091:8091"
+
+  funcionario:
+    environment:
+      EUREKA_INSTANCE_HOSTNAME: "funcionario"
+      EUREKA_CLIENT_SERVICE_URL_DEFAULT_ZONE: "http://eureka:8761/eureka"
+    image: antoniosk/unisul-dist-ms-funcionario:latest
+    depends_on:
+      - eureka
+    networks:
+      - unisul-distribuidos
+    healthcheck:
+      test: "curl --fail --silent localhost:8092/actuator/health | grep UP || exit 1"
+      interval: 20s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
+    links:
+      - eureka
+
+  sala:
+    environment:
+      EUREKA_INSTANCE_HOSTNAME: "sala"
+      EUREKA_CLIENT_SERVICE_URL_DEFAULT_ZONE: "http://eureka:8761/eureka"
+    image: antoniosk/unisul-dist-ms-sala:latest
+    depends_on:
+      - eureka
+    networks:
+      - unisul-distribuidos
+    healthcheck:
+      test: "curl --fail --silent localhost:8093/actuator/health | grep UP || exit 1"
+      interval: 20s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
+    links:
+      - eureka
+
+  gateway:  
+    environment:
+      EUREKA_CLIENT_SERVICE_URL_DEFAULT_ZONE: "http://eureka:8761/eureka"
+    image: antoniosk/unisul-dist-proj-gateway:latest
+    depends_on:
+      - eureka
+      - agenda
+      - funcionario
+      - sala
+    networks:
+      - unisul-distribuidos
+    ports:
+      - "8080:8080"
 

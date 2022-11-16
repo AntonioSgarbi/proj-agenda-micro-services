@@ -6,6 +6,7 @@ spring:
     name: gateway
   cloud:
     gateway:
+      
       routes:
       - id: agenda
         uri: lb://agenda
@@ -25,7 +26,7 @@ spring:
           lower-case-service-id: true
 eureka:
   instance:
-    hostname: register
+    hostname: localhost
   client:
     register-with-eureka: true
     fetch-registry: true

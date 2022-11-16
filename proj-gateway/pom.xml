@@ -55,13 +55,67 @@
         </dependencies>
     </dependencyManagement>
 
-    <build>
+     <build>
         <plugins>
+
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.7.5</version>
+            </plugin>
+
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>3.2.1</version>
+                <configuration>
+                    <from>
+                        <image>eclipse-temurin:17-jre-alpine</image>
+                    </from>
+                    <to>
+                        <image>antoniosk/unisul-dist-proj-gateway</image>
+                        <tags>
+                            <tag>latest</tag>
+                        </tags>
+                        <auth>
+                            <!--suppress UnresolvedMavenProperty -->
+                            <username>antoniosk</username>
+                            <!--suppress UnresolvedMavenProperty -->
+                            <password>dckr_pat_o-sQlaOwJITnrGaqB5JbyaSjb40</password>
+                        </auth>
+                    </to>
+                    <container>
+                        
+                        <ports>
+                            <port>8080</port>
+                        </ports>
+                        
+                        <environment>
+                            <SERVER_PORT>8080</SERVER_PORT>
+                            <EUREKA_INSTANCE_HOSTNAME>localhost</EUREKA_INSTANCE_HOSTNAME>
+
+                            <EUREKA_CLIENT_REGISTER_WITH_EUREKA>true</EUREKA_CLIENT_REGISTER_WITH_EUREKA>
+                            <EUREKA_CLIENT_FETCH_REGISTRY>true</EUREKA_CLIENT_FETCH_REGISTRY>
+                            <EUREKA_CLIENT_SERVICE_URL_DEFAULT_ZONE>http://localhost:8761/eureka</EUREKA_CLIENT_SERVICE_URL_DEFAULT_ZONE>
+                        </environment>
+                        
+                        <args>
+                            <!--suppress UnresolvedMavenProperty -->
+                            <arg>--server.port=${SERVER_PORT}</arg>
+
+                            <!--suppress UnresolvedMavenProperty -->
+                            <arg>--eureka.instance.hostname=${EUREKA_INSTANCE_HOSTNAME}</arg>
+
+                            <!--suppress UnresolvedMavenProperty -->
+                            <arg>--eureka.client.register-with-eureka=${EUREKA_CLIENT_REGISTER_WITH_EUREKA}</arg>
+                            <!--suppress UnresolvedMavenProperty -->
+                            <arg>--eureka.client.fetch-registry=${EUREKA_CLIENT_FETCH_REGISTRY}</arg>
+                            <!--suppress UnresolvedMavenProperty -->
+                            <arg>--eureka.client.service-url.defaultZone=${EUREKA_CLIENT_SERVICE_URL_DEFAULT_ZONE}</arg>
+                        </args>
+                    </container>
+                </configuration>
             </plugin>
         </plugins>
     </build>
-
 </project>
