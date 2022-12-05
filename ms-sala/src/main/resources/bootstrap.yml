@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: sala
+  cloud:
+    config:
+      uri: http://localhost:8090
+      profile: mysql

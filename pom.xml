@@ -6,7 +6,7 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.7.5</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath/>
     </parent>
 
     <groupId>tech.antoniosgarbi</groupId>
@@ -27,26 +27,44 @@
         <spring-cloud-starter-config-version>3.1.5</spring-cloud-starter-config-version>
         <spring-cloud-starter-bootstrap-version>3.1.5</spring-cloud-starter-bootstrap-version>
         <micromiter-version>1.10.0</micromiter-version>
+
+        <EUREKA_INSTANCE_HOSTNAME>localhost</EUREKA_INSTANCE_HOSTNAME>
+        <EUREKA_INSTANCE_HEALTH_CHECK_URL_PATH>/actuator/health</EUREKA_INSTANCE_HEALTH_CHECK_URL_PATH>
+        <EUREKA_INSTANCE_STATUS_PAGE_URL_PATH>/actuator/health</EUREKA_INSTANCE_STATUS_PAGE_URL_PATH>
+        <EUREKA_CLIENT_REGISTER_WITH_EUREKA>true</EUREKA_CLIENT_REGISTER_WITH_EUREKA>
+        <EUREKA_CLIENT_FETCH_REGISTRY>true</EUREKA_CLIENT_FETCH_REGISTRY>
+        <EUREKA_CLIENT_SERVICE_URL_DEFAULT_ZONE>http://localhost:8761/eureka</EUREKA_CLIENT_SERVICE_URL_DEFAULT_ZONE>
+        <MANAGEMENT_ENDPOINTS_ENABLED_BY_DEFAULT>false</MANAGEMENT_ENDPOINTS_ENABLED_BY_DEFAULT>
+        <MANAGEMENT_ENDPOINTS_WEB_BASE_PATH>/actuator</MANAGEMENT_ENDPOINTS_WEB_BASE_PATH>
+        <MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE>health,prometheus</MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE>
+        <MANAGEMENT_ENDPOINT_HEALTH_ENABLED>true</MANAGEMENT_ENDPOINT_HEALTH_ENABLED>
+        <MANAGEMENT_ENDPOINT_HEALTH_SHOW_DETAILS>always</MANAGEMENT_ENDPOINT_HEALTH_SHOW_DETAILS>
+        <MANAGEMENT_ENDPOINT_PROMETHEUS_ENABLED>true</MANAGEMENT_ENDPOINT_PROMETHEUS_ENABLED>
     </properties>
 
     <dependencies>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-rest</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-config</artifactId>
             <version>${spring-cloud-starter-config-version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
@@ -64,6 +82,19 @@
             <artifactId>h2</artifactId>
             <scope>runtime</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.5.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
@@ -88,8 +119,14 @@
             <version>${micrometer.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.24</version>
+        </dependency>
 
     </dependencies>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -101,6 +138,5 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
 
 </project>

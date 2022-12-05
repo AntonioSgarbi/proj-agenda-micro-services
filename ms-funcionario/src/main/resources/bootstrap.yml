@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: funcionario
+  cloud:
+    config:
+      uri: http://localhost:8090
+      profile: mysql

@@ -2,11 +2,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+    </dependencies>
     <parent>
         <groupId>tech.antoniosgarbi</groupId>
         <artifactId>distribuidos</artifactId>
         <version>0.0.1-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath> <!-- lookup parent from repository -->
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>ms-agenda</artifactId>
@@ -37,71 +43,42 @@
                             <tag>latest</tag>
                         </tags>
                         <auth>
-                            <!--suppress UnresolvedMavenProperty -->
                             <username>antoniosk</username>
-                            <!--suppress UnresolvedMavenProperty -->
-                            <password>dckr_pat_o-sQlaOwJITnrGaqB5JbyaSjb40</password>
+                            <password>PASSWORD</password>
                         </auth>
                     </to>
                     <container>
                         <ports>
-                            <!--suppress UnresolvedMavenProperty -->
                             <port>8091</port>
                         </ports>
 
-
                         <environment>
-                            <SERVER_PORT>8091</SERVER_PORT>
-                            <EUREKA_INSTANCE_HOSTNAME>localhost</EUREKA_INSTANCE_HOSTNAME>
-
-                            <EUREKA_INSTANCE_HEALTH_CHECK_URL_PATH>/actuator/health</EUREKA_INSTANCE_HEALTH_CHECK_URL_PATH>
-                            <EUREKA_INSTANCE_STATUS_PAGE_URL_PATH>/actuator/health</EUREKA_INSTANCE_STATUS_PAGE_URL_PATH>
-
-                            <EUREKA_CLIENT_REGISTER_WITH_EUREKA>true</EUREKA_CLIENT_REGISTER_WITH_EUREKA>
-                            <EUREKA_CLIENT_FETCH_REGISTRY>true</EUREKA_CLIENT_FETCH_REGISTRY>
-                            <EUREKA_CLIENT_SERVICE_URL_DEFAULT_ZONE>http://localhost:8761/eureka</EUREKA_CLIENT_SERVICE_URL_DEFAULT_ZONE>
-
-                            <MANAGEMENT_ENDPOINTS_ENABLED_BY_DEFAULT>false</MANAGEMENT_ENDPOINTS_ENABLED_BY_DEFAULT>
-                            <MANAGEMENT_ENDPOINTS_WEB_BASE_PATH>/actuator</MANAGEMENT_ENDPOINTS_WEB_BASE_PATH>
-                            <MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE>health,prometheus</MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE>
-
-                            <MANAGEMENT_ENDPOINT_HEALTH_ENABLED>true</MANAGEMENT_ENDPOINT_HEALTH_ENABLED>
-                            <MANAGEMENT_ENDPOINT_HEALTH_SHOW_DETAILS>always</MANAGEMENT_ENDPOINT_HEALTH_SHOW_DETAILS>
-
-                            <MANAGEMENT_ENDPOINT_PROMETHEUS_ENABLED>true</MANAGEMENT_ENDPOINT_PROMETHEUS_ENABLED>
+                            <EUREKA_INSTANCE_HOSTNAME>${EUREKA_INSTANCE_HOSTNAME}</EUREKA_INSTANCE_HOSTNAME>
+                            <EUREKA_INSTANCE_HEALTH_CHECK_URL_PATH>${EUREKA_INSTANCE_HEALTH_CHECK_URL_PATH}</EUREKA_INSTANCE_HEALTH_CHECK_URL_PATH>
+                            <EUREKA_INSTANCE_STATUS_PAGE_URL_PATH>${EUREKA_INSTANCE_STATUS_PAGE_URL_PATH}</EUREKA_INSTANCE_STATUS_PAGE_URL_PATH>
+                            <EUREKA_CLIENT_REGISTER_WITH_EUREKA>${EUREKA_CLIENT_REGISTER_WITH_EUREKA}</EUREKA_CLIENT_REGISTER_WITH_EUREKA>
+                            <EUREKA_CLIENT_FETCH_REGISTRY>${EUREKA_CLIENT_FETCH_REGISTRY}</EUREKA_CLIENT_FETCH_REGISTRY>
+                            <EUREKA_CLIENT_SERVICE_URL_DEFAULT_ZONE>${EUREKA_CLIENT_SERVICE_URL_DEFAULT_ZONE}</EUREKA_CLIENT_SERVICE_URL_DEFAULT_ZONE>
+                            <MANAGEMENT_ENDPOINTS_ENABLED_BY_DEFAULT>${MANAGEMENT_ENDPOINTS_ENABLED_BY_DEFAULT}</MANAGEMENT_ENDPOINTS_ENABLED_BY_DEFAULT>
+                            <MANAGEMENT_ENDPOINTS_WEB_BASE_PATH>${MANAGEMENT_ENDPOINTS_WEB_BASE_PATH}</MANAGEMENT_ENDPOINTS_WEB_BASE_PATH>
+                            <MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE>${MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE}</MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE>
+                            <MANAGEMENT_ENDPOINT_HEALTH_ENABLED>${MANAGEMENT_ENDPOINT_HEALTH_ENABLED}</MANAGEMENT_ENDPOINT_HEALTH_ENABLED>
+                            <MANAGEMENT_ENDPOINT_HEALTH_SHOW_DETAILS>${MANAGEMENT_ENDPOINT_HEALTH_SHOW_DETAILS}</MANAGEMENT_ENDPOINT_HEALTH_SHOW_DETAILS>
+                            <MANAGEMENT_ENDPOINT_PROMETHEUS_ENABLED>${MANAGEMENT_ENDPOINT_PROMETHEUS_ENABLED}</MANAGEMENT_ENDPOINT_PROMETHEUS_ENABLED>
                         </environment>
 
                         <args>
-                            <!--suppress UnresolvedMavenProperty -->
-                            <arg>--server.port=${SERVER_PORT}</arg>
-
-                            <!--suppress UnresolvedMavenProperty -->
                             <arg>--eureka.instance.hostname=${EUREKA_INSTANCE_HOSTNAME}</arg>
-                            <!--suppress UnresolvedMavenProperty -->
                             <arg>--eureka.instance.health-check-url-path=${EUREKA_INSTANCE_HEALTH_CHECK_URL_PATH}</arg>
-                            <!--suppress UnresolvedMavenProperty -->
                             <arg>--eureka.instance.status-page-url-path=${EUREKA_INSTANCE_STATUS_PAGE_URL_PATH}</arg>
-
-                            <!--suppress UnresolvedMavenProperty -->
                             <arg>--eureka.client.register-with-eureka=${EUREKA_CLIENT_REGISTER_WITH_EUREKA}</arg>
-                            <!--suppress UnresolvedMavenProperty -->
                             <arg>--eureka.client.fetch-registry=${EUREKA_CLIENT_FETCH_REGISTRY}</arg>
-                            <!--suppress UnresolvedMavenProperty -->
                             <arg>--eureka.client.service-url.defaultZone=${EUREKA_CLIENT_SERVICE_URL_DEFAULT_ZONE}</arg>
-
-                            <!--suppress UnresolvedMavenProperty -->
                             <arg>--management.endpoints.enabled-by-default=${MANAGEMENT_ENDPOINTS_ENABLED_BY_DEFAULT}</arg>
-                            <!--suppress UnresolvedMavenProperty -->
                             <arg>--management.endpoints.web.base-path=${MANAGEMENT_ENDPOINTS_WEB_BASE_PATH}</arg>
-                            <!--suppress UnresolvedMavenProperty -->
                             <arg>--management.endpoints.web.exposure.include=${MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE}</arg>
-
-                            <!--suppress UnresolvedMavenProperty -->
                             <arg>--management.endpoint.health.enabled=${MANAGEMENT_ENDPOINT_HEALTH_ENABLED}</arg>
-                            <!--suppress UnresolvedMavenProperty -->
                             <arg>--management.endpoint.health.show-details=${MANAGEMENT_ENDPOINT_HEALTH_SHOW_DETAILS}</arg>
-
-                            <!--suppress UnresolvedMavenProperty -->
                             <arg>--management.endpoint.prometheus.enabled=${MANAGEMENT_ENDPOINT_PROMETHEUS_ENABLED}</arg>
                         </args>
 

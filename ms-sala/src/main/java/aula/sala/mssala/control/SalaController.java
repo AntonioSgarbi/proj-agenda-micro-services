@@ -1,55 +1,53 @@
 package aula.sala.mssala.control;
 
-import aula.sala.mssala.control.dto.SalaDTO;
-import aula.sala.mssala.model.Sala;
-import aula.sala.mssala.repository.SalaRepositorio;
-import org.springframework.beans.factory.annotation.Autowired;
+import aula.sala.mssala.dto.SalaDTO;
+import aula.sala.mssala.service.SalaService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.net.URI;
+import java.util.Set;
 
 @RestController
-@RequestMapping("/sala")
+@RequiredArgsConstructor
 public class SalaController {
 
-    @Autowired
-    private SalaRepositorio salaRepositorio;
+    private final SalaService salaService;
 
-    @GetMapping("/")
-    public List<Sala> listarTodasSala(){
-        return salaRepositorio.findAll();
+    @GetMapping
+    public Page<SalaDTO> findAll(Pageable pageable){
+        return salaService.findAll(pageable);
     }
 
     @GetMapping("/{id}")
-    public Sala buscarPorId(@PathVariable(name = "id")Long id){
-        return salaRepositorio.findById(id).orElse(null);
-    }
-    @GetMapping("/inf/{id}")
-    public SalaDTO buscarPodIdBasico(@PathVariable(name = "id")Long id){
-        Sala sala = salaRepositorio.getReferenceById(id);
-        SalaDTO dto = new SalaDTO(sala);
-        return dto;
+    public SalaDTO findById(@PathVariable Long id){
+        return salaService.findById(id);
     }
 
-    @PostMapping("/")
-    public void inserirSala(@RequestBody Sala sala){
-        salaRepositorio.save(sala);
+    @PostMapping
+    public ResponseEntity<SalaDTO> insert(@RequestBody SalaDTO sala){
+        SalaDTO salaDTO = this.salaService.save(sala);
+        URI uri = URI.create("/sala/" + salaDTO.getId());
+
+        return ResponseEntity.created(uri).body(salaDTO);
     }
 
     @PutMapping("/{id}")
-    public SalaDTO alterarSala(@PathVariable(name = "id")Long id, @RequestBody Sala sala){
-        Sala salaBase = salaRepositorio.getReferenceById(id);
-        salaBase.setNome(sala.getNome());
-        salaBase.setNumeroLugares(sala.getNumeroLugares());
-        salaRepositorio.save(salaBase);
-        return new SalaDTO(salaBase);
+    public ResponseEntity<SalaDTO> update(@PathVariable Long id, @RequestBody SalaDTO dto){
+        return ResponseEntity.ok(this.salaService.update(id, dto));
     }
 
     @DeleteMapping("/{id}")
-    public SalaDTO deletarSala(@PathVariable(name = "id")Long id){
-        Sala sala = salaRepositorio.getReferenceById(id);
-        SalaDTO dto = new SalaDTO(sala);
-        salaRepositorio.delete(sala);
-        return dto;
+    public ResponseEntity<String> delete(@PathVariable Long id){
+        String message = this.salaService.delete(id);
+        return ResponseEntity.accepted().body(message);
+    }
+
+    @PutMapping("/by-set")
+    ResponseEntity<Set<SalaDTO>> findBySet(@RequestBody Set<Long> set) {
+        return ResponseEntity.ok(this.salaService.findBySet(set));
     }
 }

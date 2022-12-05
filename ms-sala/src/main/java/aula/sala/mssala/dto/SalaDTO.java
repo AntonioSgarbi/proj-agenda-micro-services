@@ -1,4 +1,4 @@
-package aula.sala.mssala.control.dto;
+package aula.sala.mssala.dto;
 
 import aula.sala.mssala.model.Sala;
 

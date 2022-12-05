@@ -4,14 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AgendaDTO {
+public class FuncionarioDTO {
     private Long id;
-    private Long idResponsavel;
-    private String responsavel;
-    private Long idSala;
-    private String sala;
-    private String dataHoraReserva;
+    private String nome;
+    private String dataAdmissao;
+    private String dataNascimento;
+
 }

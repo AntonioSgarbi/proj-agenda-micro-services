@@ -1,49 +1,55 @@
 package aula.funcionario.msfuncionario.control;
 
-import aula.funcionario.msfuncionario.control.dto.FuncionarioDTO;
-import aula.funcionario.msfuncionario.model.Funcionario;
-import aula.funcionario.msfuncionario.repository.FuncionarioRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import aula.funcionario.msfuncionario.dto.FuncionarioDTO;
+import aula.funcionario.msfuncionario.service.FuncionarioService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.net.URI;
+import java.util.Set;
 
 @RestController
-@RequestMapping("/funcionario")
+@RequiredArgsConstructor
 public class FuncionarioController {
 
-    @Autowired
-    private FuncionarioRepository repository;
+    private final FuncionarioService funcionarioService;
 
-    @GetMapping("/")
-    public List<FuncionarioDTO> listarTodosFuncionarios(){
-        List<Funcionario> funcionarioList = repository.findAll();
-        List<FuncionarioDTO> dtos = FuncionarioDTO.converteListaDTO(funcionarioList);
-        return dtos;
+
+    @GetMapping
+    public Page<FuncionarioDTO> findAll(Pageable pageable){
+        return funcionarioService.findAll(pageable);
     }
+
     @GetMapping("/{id}")
-    public FuncionarioDTO consutarPorId(@PathVariable(name = "id")Long id){
-        Funcionario funcionario = repository.getReferenceById(id);
-        return new FuncionarioDTO(funcionario);
+    public FuncionarioDTO findById(@PathVariable Long id){
+        return funcionarioService.findById(id);
     }
-    @PostMapping("/")
-    public void inserirFuncionario(@RequestBody FuncionarioDTO dto){
-        Funcionario funcionario = dto.converteFuncionario();
-        repository.save(funcionario);
+
+    @PostMapping
+    public ResponseEntity<FuncionarioDTO> insert(@RequestBody FuncionarioDTO sala){
+        FuncionarioDTO salaDTO = this.funcionarioService.save(sala);
+        URI uri = URI.create("/sala/" + salaDTO.getId());
+
+        return ResponseEntity.created(uri).body(salaDTO);
     }
+
     @PutMapping("/{id}")
-    public FuncionarioDTO alterarFuncionario(@PathVariable(name = "id")Long id, @RequestBody FuncionarioDTO dto){
-        Funcionario funcionarioBase = repository.getReferenceById(id);
-        dto.setId(funcionarioBase.getId());
-        Funcionario funcionarioAlterado = dto.converteFuncionario();
-        repository.save(funcionarioAlterado);
-        return dto;
+    public ResponseEntity<FuncionarioDTO> update(@PathVariable Long id, @RequestBody FuncionarioDTO dto){
+        return ResponseEntity.ok(this.funcionarioService.update(id, dto));
     }
+
     @DeleteMapping("/{id}")
-    public FuncionarioDTO deletarFuncionario(@PathVariable(name = "id")Long id){
-        Funcionario funcionario = repository.getReferenceById(id);
-        FuncionarioDTO dto = new FuncionarioDTO(funcionario);
-        repository.delete(funcionario);
-        return dto;
+    public ResponseEntity<String> delete(@PathVariable Long id){
+        String message = this.funcionarioService.delete(id);
+        return ResponseEntity.accepted().body(message);
     }
+
+    @PutMapping("/by-set")
+    public ResponseEntity<Set<FuncionarioDTO>> findBySet(@RequestBody Set<Long> set) {
+        return ResponseEntity.ok(this.funcionarioService.findBySet(set));
+    }
+
 }
