@@ -1,4 +1,4 @@
-version: '3.4'
+version: '2.4'
 
 volumes:
   prometheus_data:
@@ -7,10 +7,10 @@ volumes:
 
 networks:
   unisul-distribuidos:
-      driver: bridge
-      ipam:
-        config:
-          - subnet: 172.20.0.0/16
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
 
 services:
   
@@ -34,29 +34,30 @@ services:
     depends_on:
       - prometheus
 
-  # postgres:
-  #     image: postgres:14.1-alpine
-  #     volumes:
-  #       - postgres_data:/var/lib/postgresql/data
-  #     environment:
-  #       POSTGRES_DB: keycloak
-  #       POSTGRES_USER: keycloak
-  #       POSTGRES_PASSWORD: password
-  # keycloak:
-  #     image: quay.io/keycloak/keycloak:legacy
-  #     environment:
-  #       DB_VENDOR: POSTGRES
-  #       DB_ADDR: postgres
-  #       DB_DATABASE: keycloak
-  #       DB_USER: keycloak
-  #       DB_SCHEMA: public
-  #       DB_PASSWORD: password
-  #       KEYCLOAK_USER: admin
-  #       KEYCLOAK_PASSWORD: Pa55w0rd
-  #     ports:
-  #       - 9999:8080
-  #     depends_on:
-  #       - postgres
+  postgres:
+    image: postgres:14.1-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: password
+  keycloak:
+    image: quay.io/keycloak/keycloak:legacy
+    environment:
+      DB_VENDOR: POSTGRES
+      DB_ADDR: postgres
+      DB_DATABASE: keycloak
+      DB_USER: keycloak
+      DB_SCHEMA: public
+      DB_PASSWORD: password
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: Pa55w0rd
+    ports:
+      - 9999:8080
+    depends_on:
+      postgres:
+        condition: service_healthy
 
   eureka:
     image: antoniosk/unisul-dist-proj-eureka:latest
@@ -80,8 +81,6 @@ services:
       timeout: 5s
       retries: 5
       start_period: 40s
-    links:
-      - eureka
     ports:
       - "8091:8091"
 
@@ -100,8 +99,6 @@ services:
       timeout: 5s
       retries: 5
       start_period: 40s
-    links:
-      - eureka
 
   sala:
     environment:
@@ -118,18 +115,22 @@ services:
       timeout: 5s
       retries: 5
       start_period: 40s
-    links:
-      - eureka
 
-  gateway:  
+  gateway:
     environment:
       EUREKA_CLIENT_SERVICE_URL_DEFAULT_ZONE: "http://eureka:8761/eureka"
     image: antoniosk/unisul-dist-proj-gateway:latest
     depends_on:
-      - eureka
-      - agenda
-      - funcionario
-      - sala
+      keycloak:
+        condition: service_healthy
+      eureka:
+        condition: service_healthy
+      agenda:
+        condition: service_healthy
+      funcionario:
+        condition: service_healthy
+      sala:
+        condition: service_healthy
     networks:
       - unisul-distribuidos
     ports:

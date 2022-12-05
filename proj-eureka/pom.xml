@@ -14,11 +14,7 @@
     <name>proj-eureka</name>
     <description>proj-eureka</description>
     <properties>
-        <SERVER_PORT>8761</SERVER_PORT>
-        <EUREKA_INSTANCE_HOSTNAME>localhost</EUREKA_INSTANCE_HOSTNAME>
-        <EUREKA_CLIENT_FETCH_REGISTRY>false</EUREKA_CLIENT_FETCH_REGISTRY>
-        <EUREKA_CLIENT_REGISTER_WITH_EUREKA>false</EUREKA_CLIENT_REGISTER_WITH_EUREKA>
-        <EUREKA_SERVER_RENEWAL_PERCENT_THRESHOLD>0.33</EUREKA_SERVER_RENEWAL_PERCENT_THRESHOLD>
+
         <java.version>17</java.version>
         <spring-cloud.version>2021.0.4</spring-cloud.version>
     </properties>
@@ -82,14 +78,11 @@
                     </to>
                     <container>
                         <environment>
-                            <SERVER_PORT>${SERVER_PORT}</SERVER_PORT>
-
-                            <EUREKA_INSTANCE_HOSTNAME>${EUREKA_INSTANCE_HOSTNAME}</EUREKA_INSTANCE_HOSTNAME>
-
-                            <EUREKA_CLIENT_REGISTER_WITH_EUREKA>${EUREKA_CLIENT_REGISTER_WITH_EUREKA}</EUREKA_CLIENT_REGISTER_WITH_EUREKA>
-                            <EUREKA_CLIENT_FETCH_REGISTRY>${EUREKA_CLIENT_FETCH_REGISTRY}</EUREKA_CLIENT_FETCH_REGISTRY>
-
-                            <EUREKA_SERVER_RENEWAL_PERCENT_THRESHOLD    >${EUREKA_SERVER_RENEWAL_PERCENT_THRESHOLD}</EUREKA_SERVER_RENEWAL_PERCENT_THRESHOLD>
+                            <SERVER_PORT>8761</SERVER_PORT>
+                            <EUREKA_INSTANCE_HOSTNAME>localhost</EUREKA_INSTANCE_HOSTNAME>
+                            <EUREKA_CLIENT_FETCH_REGISTRY>false</EUREKA_CLIENT_FETCH_REGISTRY>
+                            <EUREKA_CLIENT_REGISTER_WITH_EUREKA>false</EUREKA_CLIENT_REGISTER_WITH_EUREKA>
+                            <EUREKA_SERVER_RENEWAL_PERCENT_THRESHOLD>0.33</EUREKA_SERVER_RENEWAL_PERCENT_THRESHOLD>
                         </environment>
                         <ports>
                             <port>${SERVER_PORT}</port>
