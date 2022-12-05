@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:mysql://localhost:3306/desafio_mvc?createDatabaseIfNotExist=True&jdbcCompliantTruncation=false
+    username: root
+    password: root
+  jpa:
+    database: mysql
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQL10Dialect
