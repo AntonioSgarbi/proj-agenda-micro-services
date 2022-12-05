@@ -47,6 +47,9 @@
                         </ports>
 
                         <environment>
+                            <CONGIF_SERVER_PATH>http://localhost</CONGIF_SERVER_PATH>
+                            <CONFIG_PROFILE>h2mem</CONFIG_PROFILE>
+
                             <EUREKA_INSTANCE_HOSTNAME>${EUREKA_INSTANCE_HOSTNAME}</EUREKA_INSTANCE_HOSTNAME>
                             <EUREKA_INSTANCE_HEALTH_CHECK_URL_PATH>${EUREKA_INSTANCE_HEALTH_CHECK_URL_PATH}</EUREKA_INSTANCE_HEALTH_CHECK_URL_PATH>
                             <EUREKA_INSTANCE_STATUS_PAGE_URL_PATH>${EUREKA_INSTANCE_STATUS_PAGE_URL_PATH}</EUREKA_INSTANCE_STATUS_PAGE_URL_PATH>
@@ -62,6 +65,9 @@
                         </environment>
 
                         <args>
+                            <arg>--spring.cloud.config.uri=${CONGIF_SERVER_PATH}:8090</arg>
+                            <arg>--spring.cloud.config.profile=${CONGIF_SERVER_URI}</arg>
+
                             <arg>--eureka.instance.hostname=${EUREKA_INSTANCE_HOSTNAME}</arg>
                             <arg>--eureka.instance.health-check-url-path=${EUREKA_INSTANCE_HEALTH_CHECK_URL_PATH}</arg>
                             <arg>--eureka.instance.status-page-url-path=${EUREKA_INSTANCE_STATUS_PAGE_URL_PATH}</arg>

@@ -66,6 +66,11 @@ services:
     ports:
       - "8761:8761"
 
+  config:
+    image: antoniosk/unisul-dist-proj-config
+    networks:
+      - unisul-distribuidos
+
   agenda:
     environment:
       EUREKA_INSTANCE_HOSTNAME: "agenda"
