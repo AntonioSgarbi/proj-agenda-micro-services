@@ -1,29 +1,51 @@
 server:
-  port: 8080
+  port: 8081
+
+keycloak:
+  realm: Agenda
+  auth-server-url: http://localhost:8089
 
 spring:
   application:
     name: gateway
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: ${keycloak.auth-server-url}/realms/${keycloak.realm}/protocol/openid-connect/certs
+      client:
+        provider:
+          keycloak:
+            issuer-uri: ${keycloak.auth-server-url}/realms/${keycloak.realm}
+        registration:
+          keycloak-spring-gateway-client:
+            provider: keycloak
+            scope: openid
+            client-id: gateway
+            client-secret: vedQMltnuyn3V6xCm2BW0YaLl8vKLrmU
+            authorization-grant-type: authorization_code
+            redirect-uri: "{baseUrl}/login/oauth2/code/keycloak"
+
   cloud:
     gateway:
-      
       routes:
-      - id: agenda
-        uri: lb://agenda
-        predicates:
-        - Path=/agenda/**
-      - id: funcionario
-        uri: lb://funcionario
-        predicates:
-        - Path=/funcionario/**
-      - id: sala
-        uri: lb://sala
-        predicates:
-        - Path=/sala/**
+        - id: agenda
+          uri: lb://agenda
+          predicates:
+            - Path=/agenda/**
+        - id: funcionario
+          uri: lb://funcionario
+          predicates:
+            - Path=/funcionario/**
+        - id: sala
+          uri: lb://sala
+          predicates:
+            - Path=/sala/**
       discovery:
         locator:
           enabled: true
           lower-case-service-id: true
+
 eureka:
   instance:
     hostname: localhost
